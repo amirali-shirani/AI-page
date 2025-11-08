@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+
+/*:root {*/
+/*    --user-chat-color : rgb(216,215,255);*/
+/*    --chat-bot-color : rgb(248,248,255)*/
+/*}*/
+@theme {
+    --color-user-chat: rgb(216,215,255);
+    --color-chat-bot: rgb(248,248,255);
+    --color-sidebar: rgb(248,248,255);
+    --color-custom-secondary : rgb(240,241,245)
+}
