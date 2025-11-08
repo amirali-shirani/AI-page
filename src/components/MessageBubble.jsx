@@ -2,7 +2,7 @@ export default function MessageBubble({children, isUser = false}) {
     return (
         <div className={` rounded-2xl w-fit p-4 ${
             isUser
-                ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white ms-auto rounded-bl-none'
+                ? 'bg-light text-white ms-auto rounded-bl-none'
                 : 'bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 shadow me-auto rounded-br-none'
         }`}>
             <div className="prose dark:prose-invert max-w-none">

@@ -6,7 +6,7 @@ const Header = () => {
     const {isCollapsed} = useAppStore()
     return (
         <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
-            <h1 className={`text-xl font-bold bg-clip-text text-transparent bg-user-chat ${isCollapsed && "mx-12"}`}>
+            <h1 className={`text-xl  font-bold bg-clip-text  ${isCollapsed && "mx-12"}`}>
                 Makan System Ai
             </h1>
 

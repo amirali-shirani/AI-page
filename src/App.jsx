@@ -16,7 +16,8 @@ function App() {
     };
 
     return (
-        <div dir="rtl" className="flex h-screen bg-gray-50 font-sans">
+        <div dir="rtl"
+             className="flex h-screen  font-sans dark:bg-dark-bg bg-light-bg text-light-text-primary dark:text-dark-text-primary">
             <Sidebar/>
             <div className="flex flex-col flex-1">
                 <ChatWindow messages={chatMessages}/>
