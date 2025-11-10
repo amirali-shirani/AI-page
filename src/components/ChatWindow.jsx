@@ -1,7 +1,6 @@
 import {useEffect, useRef} from 'react';
 import MessageBubble from './MessageBubble';
 import Header from "./Header/Header.jsx";
-import {useAppStore} from "../../store/appStore.js";
 
 export default function ChatWindow({messages}) {
     const chatEndRef = useRef(null);

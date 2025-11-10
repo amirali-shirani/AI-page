@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
-import { Moon, Sun } from "lucide-react";
-import { useAppStore } from "../../../store/appStore.js";
+import { useAppStore } from '../../../store/appStore.js';
+import { Moon, Sun } from 'lucide-react';
 
 const ChangeTheme = () => {
     const { isDarkMode, setIsDarkMode } = useAppStore();
+    const { isCollapsed } = useAppStore();
 
-    // اضافه یا حذف کلاس dark از body
+    // این useEffect را در کامپوننت اصلی یا یک کامپوننت والد قرار دهید تا فقط یک بار اجرا شود
     useEffect(() => {
         if (isDarkMode) {
             document.documentElement.classList.add('dark');
@@ -19,25 +20,29 @@ const ChangeTheme = () => {
         setIsDarkMode(newMode);
     };
 
+    if (isCollapsed) return null;
+
     return (
-        <div className={`rounded-xl btn-group flex my-16 bg-gray-300 dark:bg-gray-700 py-1.5 px-1 justify-between mx-12`}>
+        <div
+            className={`rounded-xl btn-group flex my-16 bg-gray-300 dark:bg-gray-700 py-1.5 px-1 justify-between mx-12`}
+        >
             <button
-                className={`${isDarkMode ? "bg-white text-black" : "bg-transparent text-gray-700"} p-2 rounded-lg`}
+                className={`${!isDarkMode ? 'bg-white text-black' : 'bg-transparent text-gray-700'} p-2 rounded-lg`}
                 onClick={toggleTheme}
             >
-                <span className="flex items-center gap-1">
-                    <Moon />
-                    Dark
-                </span>
+        <span className="flex items-center gap-1">
+          <Sun />
+          Light
+        </span>
             </button>
             <button
-                className={`${!isDarkMode ? "bg-white text-black" : "bg-transparent text-gray-700"} p-2 rounded-lg`}
+                className={`${isDarkMode ? 'bg-white text-black' : 'bg-transparent text-gray-700'} p-2 rounded-lg`}
                 onClick={toggleTheme}
             >
-                <span className="flex items-center gap-1">
-                    <Sun />
-                    Light
-                </span>
+        <span className="flex items-center gap-1">
+          <Moon />
+          Dark
+        </span>
             </button>
         </div>
     );

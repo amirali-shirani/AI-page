@@ -6,13 +6,13 @@ import ChangeTheme from "./ChangeTheme.jsx";
 export default function Sidebar() {
     const {isCollapsed, setIsCollapsed} = useAppStore();
     return (
-        <aside className={`bg-sidebar min-h-screen ${isCollapsed ? "w-0" : "w-72"} border-l flex flex-col justify-between`}>
+        <aside className={`bg-sidebar min-h-screen ${isCollapsed ? "w-0" : "w-72"}  border-gray-300 dark:border-gray-600 border-l flex flex-col justify-between`}>
             <div className={`relative mt-4 flex items-center justify-between px-3 `}>
                 <div className="flex items-center space-x-2">
                     <img src={logo} alt="Logo" className="w-8 h-8"/>
                     {!isCollapsed && (
                         <span
-                            className="font-bold text-xl bg-clip-text  text-gray-800">
+                            className="font-bold text-xl bg-clip-text ">
                             Makan
                         </span>
                     )}
@@ -20,7 +20,7 @@ export default function Sidebar() {
                 <button
                     onClick={() => setIsCollapsed(!isCollapsed)}
                     className={`p-2 rounded-lg cursor-pointer hover:bg-gray-100 hover:scale-105 transition-all 
-                    duration-200 ease-in-out ${isCollapsed && "text-gray-200 hover:bg-gray-600"}`}
+                    duration-200 ease-in-out`}
                     aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}>
                     {isCollapsed ? <PanelLeftOpen/> : <PanelRightOpen/>}
                 </button>

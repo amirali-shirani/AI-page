@@ -22,7 +22,7 @@ export default function MessageInput({ onSend }) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="p-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+        <form onSubmit={handleSubmit} className="p-4 border-t border-gray-200 dark:border-gray-700">
             <div className="flex items-end space-x-3">
                 <button
                     type="button"
@@ -52,7 +52,7 @@ export default function MessageInput({ onSend }) {
           />
                     <button
                         type="button"
-                        className="absolute top-2 left-3 bottom-3 text-gray-500 hover:text-blue-500 transition-colors">
+                        className="absolute top-2 left-3 bottom-3 text-gray-500 hover:text-light-accent transition-colors">
                         <Paperclip  className="text-xl" />
                     </button>
                 </div>
@@ -62,8 +62,8 @@ export default function MessageInput({ onSend }) {
                     disabled={!message.trim()}
                     className={`p-4 mb-2 cursor-pointer rounded-full transition-all ${
                         message.trim()
-                            ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white' +
-                            ' hover:from-blue-600 hover:to-purple-700'
+                            ? 'bg-light-accent hover:bg-light-accent-hover text-white' +
+                            ''
                             : 'bg-gray-200 dark:bg-gray-700 text-gray-400 cursor-not-allowed'
                     }`}
                 >

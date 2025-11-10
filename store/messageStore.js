@@ -5,8 +5,16 @@ export const useMessageStore = create((set) => ({
         {text: "سلام! چطور می‌توانم به شما کمک کنم؟", isUser: false},
         {text: "سلام! می‌خواستم بدانم هوش مصنوعی چطور کار می‌کند؟", isUser: true}
     ],
-    setChatMessages: (newMessages) => set({ chatMessages: newMessages }),
-
+    setChatMessages: (updater) => {
+        set((state) => {
+            const newMessages = typeof updater === 'function' ? updater(state.chatMessages) : updater;
+            if (!Array.isArray(newMessages)) {
+                console.error('setChatMessages received non-array:', newMessages);
+                return { chatMessages: [] };
+            }
+            return { chatMessages: newMessages };
+        });
+    },
     chatHistory: [],
     setChatHistory: (newChatHistory) => set({ chatHistory: newChatHistory })
 }))

@@ -6,10 +6,10 @@ import {useMessageStore} from "../store/messageStore.js";
 function App() {
     const {chatMessages, setChatMessages} = useMessageStore()
     const handleSend = (text) => {
-        setChatMessages(prev => [...prev, {text, isUser: true}]);
+        setChatMessages(prev => [...prev, { text, isUser: true }]);
         setTimeout(() => {
             setChatMessages(prev => [...prev, {
-                text: `هوش مصنوعی با استفاده از الگوریتم‌های پیشرفته یادگیری ماشین و شبکه‌های عصبی کار می‌کند. این سیستم‌ها با پردازش حجیم داده‌ها قادر به شناسایی الگوها و انجام وظایف پیچیده هستند.\n\nآیا می‌خواهید در مورد بخش خاصی از هوش مصنوعی بیشتر بدانید؟`,
+                text: `هوش مصنوعی با استفاده از الگوریتم‌های پیشرفته...`,
                 isUser: false
             }]);
         }, 1000);
@@ -20,7 +20,7 @@ function App() {
              className="flex h-screen  font-sans dark:bg-dark-bg bg-light-bg text-light-text-primary dark:text-dark-text-primary">
             <Sidebar/>
             <div className="flex flex-col flex-1">
-                <ChatWindow messages={chatMessages}/>
+                <ChatWindow messages={useMessageStore().chatMessages}/>
                 <MessageInput onSend={handleSend}/>
             </div>
         </div>
