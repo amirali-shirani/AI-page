@@ -1,6 +1,6 @@
 export default function MessageBubble({children, isUser = false}) {
     return (
-        <div className={`xl:max-w-lvh lg:max-w-[60rem] md:max-w-2xl max-w-sm    rounded-2xl w-fit p-4 ${
+        <div className={`max-w-[85%] md:max-w-[70%] lg:max-w-2xl rounded-2xl w-fit p-4 ${
             isUser
                 ? 'bg-light-accent dark:bg-dark-accent text-white ms-auto rounded-br-none'
                 : 'bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 shadow me-auto rounded-bl-none'
