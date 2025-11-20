@@ -6,7 +6,6 @@ const ChangeTheme = () => {
     const { isDarkMode, setIsDarkMode } = useAppStore();
     const { isCollapsed } = useAppStore();
 
-    // این useEffect را در کامپوننت اصلی یا یک کامپوننت والد قرار دهید تا فقط یک بار اجرا شود
     useEffect(() => {
         if (isDarkMode) {
             document.documentElement.classList.add('dark');
@@ -30,7 +29,7 @@ const ChangeTheme = () => {
                 className={`${!isDarkMode ? 'bg-white text-black' : 'bg-transparent text-gray-700'} p-2 rounded-lg`}
                 onClick={toggleTheme}
             >
-        <span className="flex items-center gap-1">
+        <span className="flex items-center gap-1 dark:text-gray-200">
           <Sun />
           Light
         </span>

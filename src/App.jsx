@@ -21,7 +21,10 @@ function App() {
             <Sidebar/>
             <div className="flex flex-col flex-1">
                 <ChatWindow messages={useMessageStore().chatMessages}/>
+                <div className="border-gray-200 dark:border-gray-700 border w-full mx-20 flex justify-center rounded-4xl py-10 text-center my-10">
+
                 <MessageInput onSend={handleSend}/>
+                </div>
             </div>
         </div>
     );

@@ -7,16 +7,15 @@ const getInitialTheme = () => {
     if (savedTheme !== null) {
         return JSON.parse(savedTheme);
     }
-    // گزینه اختیاری: تشخیص بر اساس تنظیمات سیستم
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
 };
 
 export const useAppStore = create((set) => ({
     isDarkMode: getInitialTheme(),
-    isCollapsed: false, // یا مقدار پیش‌فرض شما
+    isCollapsed: false,
     setIsDarkMode: (isDarkMode) => {
         set({ isDarkMode });
         localStorage.setItem('isDarkMode', JSON.stringify(isDarkMode));
     },
-    // سایر متغیرها و توابع شما
+    setIsCollapsed: () => set((state) => ({ isCollapsed: !state.isCollapsed })),
 }));
