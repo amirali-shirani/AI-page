@@ -45,9 +45,9 @@ function App() {
                 <div className="w-full shrink-0 z-20 bg-white/80 dark:bg-dark-bg/90 backdrop-blur-md border-t border-gray-100 dark:border-gray-800 pb-safe">
                     <div className="max-w-4xl mx-auto px-4 py-4">
                         <MessageInput onSend={handleSend} />
-                        <p className="hidden md:block text-center text-[10px] text-gray-400 mt-2 opacity-70">
+                        {/*<p className="hidden md:block text-center text-[10px] text-gray-400 mt-2 opacity-70">
                             هوش مصنوعی ممکن است اشتباه کند.
-                        </p>
+                        </p>*/}
                     </div>
                 </div>
             </main>
