@@ -1,47 +1,42 @@
-import React, { useEffect } from 'react';
-import { useAppStore } from '../../../store/appStore.js';
-import { Moon, Sun } from 'lucide-react';
+import React, {useEffect} from 'react';
+import {useAppStore} from '../../../store/appStore.js';
+import {Moon, Sun} from 'lucide-react';
 
 const ChangeTheme = () => {
-    const { isDarkMode, setIsDarkMode } = useAppStore();
-    const { isCollapsed } = useAppStore();
+    const {isDarkMode, setIsDarkMode} = useAppStore();
 
     useEffect(() => {
+        const root = document.documentElement;
         if (isDarkMode) {
-            document.documentElement.classList.add('dark');
+            root.classList.add('dark');
         } else {
-            document.documentElement.classList.remove('dark');
+            root.classList.remove('dark');
         }
     }, [isDarkMode]);
 
-    const toggleTheme = () => {
-        const newMode = !isDarkMode;
-        setIsDarkMode(newMode);
-    };
-
-    if (isCollapsed) return null;
-
     return (
-        <div
-            className={`rounded-xl btn-group flex my-16 bg-gray-300 dark:bg-gray-700 py-1.5 px-1 justify-between mx-12`}
-        >
+        <div className="flex justify-center my-16">
             <button
-                className={`${!isDarkMode ? 'bg-white text-black' : 'bg-transparent text-gray-700'} p-2 rounded-lg`}
-                onClick={toggleTheme}
-            >
-        <span className="flex items-center gap-1 dark:text-gray-200">
-          <Sun />
-          Light
-        </span>
-            </button>
-            <button
-                className={`${isDarkMode ? 'bg-white text-black' : 'bg-transparent text-gray-700'} p-2 rounded-lg`}
-                onClick={toggleTheme}
-            >
-        <span className="flex items-center gap-1">
-          <Moon />
-          Dark
-        </span>
+                onClick={() => setIsDarkMode(!isDarkMode)}
+                className={`
+                    relative w-20 h-10 rounded-full p-1 cursor-pointer transition-colors duration-500 ease-in-out
+                    ${isDarkMode ? 'bg-slate-700' : 'bg-sky-200'}`}
+                aria-label="Toggle Dark Mode">
+                <div
+                    className={`
+                        w-8 h-8 rounded-full bg-white shadow-lg transform transition-transform duration-500 ease-[cubic-bezier(0.68,-0.55,0.27,1.55)]
+                        flex items-center justify-center ${isDarkMode ? '-translate-x-10' : 'translate-x-0'}`}>
+                    <div className="relative w-full h-full flex items-center justify-center">
+                        <Sun
+                            size={18}
+                            className={`absolute text-orange-400 transition-all duration-300
+                             ${isDarkMode ? 'opacity-0 rotate-90 scale-0' : 'opacity-100 rotate-0 scale-100'}`}/>
+                        <Moon
+                            size={18}
+                            className={`absolute text-slate-800 transition-all duration-300 ${isDarkMode ?
+                                'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-0'}`}/>
+                    </div>
+                </div>
             </button>
         </div>
     );

@@ -43,20 +43,17 @@ export default function MessageInput({onSend}) {
             className="w-full bg-gray-100 dark:bg-gray-800 rounded-[20px] md:rounded-3xl shadow-sm border border-gray-200 dark:border-gray-700 p-1.5 md:p-2 flex items-end gap-2"
         >
             <button
-                type="button"
-                onClick={startRecording}
+                type="submit"
+                disabled={!message.trim()}
                 className={`p-2.5 md:p-3 rounded-full transition-all shrink-0 ${
-                    isRecording
-                        ? 'bg-red-500 text-white animate-pulse'
-                        : 'bg-transparent text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+                    message.trim()
+                        ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-md transform hover:scale-105'
+                        : 'bg-gray-200 dark:bg-gray-700 text-gray-400 cursor-not-allowed'
                 }`}
             >
-                {isRecording ? (
-                    <div className="w-2 h-2 md:w-2.5 md:h-2.5 bg-white rounded-full mx-auto"/>
-                ) : (
-                    <Mic className="w-5 h-5 md:w-6 md:h-6"/>
-                )}
+                <SendHorizontal className="w-5 h-5 md:w-5 md:h-5 rtl:rotate-180"/>
             </button>
+
 
             <div className="flex-1 relative bg-transparent min-w-0">
                 <textarea
@@ -72,18 +69,22 @@ export default function MessageInput({onSend}) {
                     style={{minHeight: '44px'}}
                 />
             </div>
-
             <button
-                type="submit"
-                disabled={!message.trim()}
+                type="button"
+                onClick={startRecording}
                 className={`p-2.5 md:p-3 rounded-full transition-all shrink-0 ${
-                    message.trim()
-                        ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-md transform hover:scale-105'
-                        : 'bg-gray-200 dark:bg-gray-700 text-gray-400 cursor-not-allowed'
+                    isRecording
+                        ? 'bg-red-500 text-white animate-pulse'
+                        : 'bg-transparent text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
                 }`}
             >
-                <SendHorizontal className="w-5 h-5 md:w-5 md:h-5 rtl:rotate-180"/>
+                {isRecording ? (
+                    <div className="w-2 h-2 md:w-2.5 md:h-2.5 bg-white rounded-full mx-auto"/>
+                ) : (
+                    <Mic className="w-5 h-5 md:w-6 md:h-6"/>
+                )}
             </button>
+
         </form>
     );
 }
