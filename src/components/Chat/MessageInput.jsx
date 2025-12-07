@@ -14,7 +14,7 @@ export default function MessageInput({onSend}) {
     }, [message]);
 
     const handleSubmit = (e) => {
-        e?.preventDefault();
+        e.preventDefault();
         if (message.trim()) {
             onSend(message);
             setMessage('');

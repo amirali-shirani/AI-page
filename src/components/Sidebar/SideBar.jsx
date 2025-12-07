@@ -1,16 +1,17 @@
-import logo from '../../assets/logo.svg';
 import {PanelLeftOpen, PanelRightOpen, X} from "lucide-react";
 import {useAppStore} from "../../../store/appStore.js";
-import { Plus } from 'lucide-react';
+import NewChatButton from "./NewChatButton.jsx";
+
 export default function Sidebar() {
-    const {isCollapsed, setIsCollapsed} = useAppStore();
+    const isCollapsed = useAppStore(state => state.isCollapsed);
+    const setIsCollapsed = useAppStore(state => state.setIsCollapsed);
 
     return (
         <aside
             className={`bg-sidebar h-full border-gray-300 dark:border-gray-600 border-l flex flex-col justify-between overflow-hidden whitespace-nowrap`}>
             <div className={`relative mt-4 flex items-center justify-between px-3`}>
                 <div className="flex items-center space-x-2 min-w-0">
-                    <img src={logo} alt="Logo" className="w-8 h-8 shrink-0"/>
+                    {/*<img src={logo} alt="Logo" className="w-8 h-8 shrink-0"/>*/}
                     <span
                         className={`font-bold text-xl bg-clip-text transition-opacity duration-200 ${isCollapsed ? 'opacity-0' : 'opacity-100'}`}>
                         Makan
@@ -29,13 +30,8 @@ export default function Sidebar() {
                 </button>
             </div>
             <div className="flex-1 mt-10 overflow-y-auto py-4 px-2">
-                <button
-                    className="flex items-center justify-start gap-3 w-full px-4 py-3
-                     text-sm font-medium dark:bg-gray-950 text-gray-700 bg-white border border-gray-200 rounded-lg
-                      hover:bg-gray-50 transition-all duration-200 shadow-sm hover:shadow-md active:scale-95">
-                    <Plus size={18} className="text-gray-500"/>
-                    <span>چت جدید</span>
-                </button>
+
+                <NewChatButton/>
 
                 {/* ... لیست چت‌ها ... */}
             </div>

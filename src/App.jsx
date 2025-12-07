@@ -1,6 +1,6 @@
 import Sidebar from './components/Sidebar/SideBar.jsx';
-import ChatWindow from './components/ChatWindow';
-import MessageInput from './components/MessageInput';
+import ChatWindow from './components/Chat/ChatWindow.jsx';
+import MessageInput from './components/Chat/MessageInput.jsx';
 import { useAppStore } from "../store/appStore.js"; // استور اصلی رو ایمپورت کن
 import { useMessageStore } from "../store/messageStore.js";
 

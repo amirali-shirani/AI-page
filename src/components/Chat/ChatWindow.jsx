@@ -1,6 +1,6 @@
 import {useEffect, useRef} from 'react';
-import MessageBubble from './MessageBubble';
-import Header from "./Header/Header.jsx";
+import MessageBubble from './MessageBubble.jsx';
+import Header from "../Header/Header.jsx";
 
 export default function ChatWindow({messages}) {
     const chatEndRef = useRef(null);

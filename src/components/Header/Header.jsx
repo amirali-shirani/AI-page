@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAppStore } from "../../../store/appStore.js";
 import { SlidersHorizontal, Menu } from "lucide-react";
-import ChangeTheme from "../Sidebar/ChangeTheme.jsx";
+import ChangeTheme from "./ChangeTheme.jsx";
 
 const Header = () => {
     const { isCollapsed, setIsCollapsed } = useAppStore();
