@@ -3,10 +3,17 @@ import ChatWindow from './components/Chat/ChatWindow.jsx';
 import MessageInput from './components/Chat/MessageInput.jsx';
 import { useAppStore } from "../store/appStore.js"; // استور اصلی رو ایمپورت کن
 import { useMessageStore } from "../store/messageStore.js";
+import {useEffect} from "react";
+import {ai} from "../services/api.js";
 
 function App() {
     const { chatMessages, setChatMessages } = useMessageStore();
     const { isCollapsed, setIsCollapsed } = useAppStore(); // برای مدیریت Overlay موبایل
+
+        useEffect(() => {
+            ai.createSession()
+        },[])
+
 
     const handleSend = (text) => {
         setChatMessages(prev => [...prev, { text, isUser: true }]);
