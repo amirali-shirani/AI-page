@@ -1,31 +1,26 @@
-import {useEffect, useRef} from 'react';
-import MessageBubble from './MessageBubble.jsx';
-import Header from "../Header/Header.jsx";
+import { useEffect, useRef } from 'react';
+import MessageBubble from '../Messages/MessageBubble.jsx';
+import {useMessageStore} from "../../../store/messageStore.js";
 
-export default function ChatWindow({messages}) {
-    const chatEndRef = useRef(null);
+export default function ChatWindow() {
+    const messages =    useMessageStore(state => state.chatMessages);
+    const bottomRef = useRef(null);
 
     useEffect(() => {
-        chatEndRef.current?.scrollIntoView({behavior: 'smooth'});
+        bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
 
     return (
-        <div className={`flex-1 flex flex-col overflow-hidden`}>
-            <Header/>
-            <div dir="ltr" className="flex-1 overflow-y-auto p-4 space-y-6">
-                {messages.map((message, index) => (
-                    <div
-                        key={index}
-                        className={`animate-fade-in ${message.isUser ? 'mr-10 text-right' : 'ml-10 text-left'}`}
-                        style={{animationDelay: `${index * 100}ms`}}
-                    >
-                        <MessageBubble isUser={message.isUser}>
-                            {message.text}
-                        </MessageBubble>
-                    </div>
-                ))}
-                <div ref={chatEndRef}/>
-            </div>
+        <div className="flex-1 overflow-y-auto p-4 space-y-6 scroll-smooth">
+            {messages.map((msg, idx) => (
+                <div
+                    key={idx}
+                    className={`animate-fade-in flex w-full ${msg.isUser ? 'justify-start' : 'justify-end'}`}
+                >
+                    <MessageBubble message={msg} />
+                </div>
+            ))}
+            <div ref={bottomRef} className="h-4" />
         </div>
     );
 }

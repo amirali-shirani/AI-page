@@ -4,11 +4,11 @@ import { SlidersHorizontal, Menu } from "lucide-react";
 import ChangeTheme from "./ChangeTheme.jsx";
 
 const Header = () => {
-    const { isCollapsed, setIsCollapsed } = useAppStore();
-
+    const isCollapsed = useAppStore(state => state.isCollapsed);
+    const setIsCollapsed = useAppStore(state => state.setIsCollapsed);
     return (
-        <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center
-         bg-white/80 dark:bg-dark-bg/80 backdrop-blur-sm sticky top-0 z-10 h-16">
+        <div dir="rtl" className="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center
+         bg-white/80 dark:bg-dark-bg/80 backdrop-blur-sm sticky top-0 z-10 h-16 ">
 
             <div className="flex items-center gap-3">
                 <button

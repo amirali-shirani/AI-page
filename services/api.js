@@ -9,7 +9,7 @@ const client = axios.create({
 });
 
 export const ai = {
-    createSession: async () => {
+    getOrCreateSession: async () => {
         const savedSession = localStorage.getItem("session");
         if (savedSession) return savedSession;
 
