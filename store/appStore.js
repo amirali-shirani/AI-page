@@ -22,7 +22,7 @@ export const useAppStore = create((set) => ({
 
     setIsCollapsed: () => set((state) => {
         const newState = !state.isCollapsed;
-        localStorage.setItem('isCollapsed', JSON.stringify(newState)); // ذخیره وضعیت جدید
+        localStorage.setItem('isCollapsed', JSON.stringify(newState));
         return { isCollapsed: newState };
     }),
 }));

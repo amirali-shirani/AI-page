@@ -18,3 +18,7 @@ export const ai = {
         return data.session_id;
     },
 };
+
+// export const sendMessage = (message) => {
+//
+// }
