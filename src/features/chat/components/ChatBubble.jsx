@@ -1,4 +1,4 @@
-export default function MessageBubble({ message }) {
+export default function ChatBubble({ message }) {
     const { text, isUser } = message;
 
     const bubbleClass = `

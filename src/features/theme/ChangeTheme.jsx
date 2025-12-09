@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
-import {useAppStore} from '../../../store/appStore.js';
 import {Moon, Sun} from 'lucide-react';
+import {useThemeStore} from "./store/themeStore.js";
 
 const ChangeTheme = () => {
-    const {isDarkMode, setIsDarkMode} = useAppStore();
-
+    const isDarkMode = useThemeStore(state => state.isDarkMode)
+    const setIsDarkMode = useThemeStore(state => state.setIsDarkMode)
     useEffect(() => {
         const root = document.documentElement;
         if (isDarkMode) {

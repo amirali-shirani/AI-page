@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
-import MessageBubble from '../Messages/MessageBubble.jsx';
-import {useMessageStore} from "../../../store/messageStore.js";
+import ChatBubble from './ChatBubble.jsx';
+import {useMessageStore} from "../../../../store/messageStore.js";
 
 export default function ChatWindow() {
     const messages =    useMessageStore(state => state.chatMessages);
@@ -17,7 +17,7 @@ export default function ChatWindow() {
                     key={idx}
                     className={`animate-fade-in flex w-full ${msg.isUser ? 'justify-start' : 'justify-end'}`}
                 >
-                    <MessageBubble message={msg} />
+                    <ChatBubble message={msg} />
                 </div>
             ))}
             <div ref={bottomRef} className="h-4" />

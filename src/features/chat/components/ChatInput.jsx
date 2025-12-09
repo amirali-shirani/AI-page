@@ -1,7 +1,7 @@
 import {useEffect, useRef, useState} from 'react';
 import {Mic, SendHorizontal} from "lucide-react";
 
-export default function MessageInput({onSend}) {
+export default function ChatInput({onSend}) {
     const [message, setMessage] = useState('');
     const [isRecording, setIsRecording] = useState(false);
     const textareaRef = useRef(null);

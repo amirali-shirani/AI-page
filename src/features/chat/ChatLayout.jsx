@@ -1,5 +1,5 @@
 import {useAppStore} from "../../../store/appStore.js";
-import Sidebar from "../Sidebar/SideBar.jsx";
+import Sidebar from "../SideBar/SideBar.jsx";
 import Header from "../Header/Header.jsx";
 
 export default function ChatLayout({children}) {

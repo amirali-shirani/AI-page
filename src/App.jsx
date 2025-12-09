@@ -1,18 +1,19 @@
-import { useEffect } from "react";
-import ChatWindow from "./components/Chat/ChatWindow";
-import MessageInput from "./components/Messages/MessageInput.jsx";
-import ChatLayout from "./components/Chat/ChatLayout.jsx";
+import {useCallback, useEffect} from "react";
+import ChatWindow from "./features/chat/components/ChatWindow.jsx";
+import ChatInput from "./features/chat/components/ChatInput.jsx";
+import ChatLayout from "./features/chat/ChatLayout.jsx";
 import {useMessageStore} from "../store/messageStore.js";
 import {ai} from "../services/api.js";
 
 function App() {
     const setChatMessages = useMessageStore(state => state.setChatMessages);
+    const chatMessages = useMessageStore(state => state.chatMessages);
 
     useEffect(() => {
         ai.getOrCreateSession();
     }, []);
 
-    const handleSend = (text) => {
+    const handleSend = useCallback((text) => {
         setChatMessages(prev => [...prev, { text, isUser: true }]);
 
         // Simulation logic
@@ -22,14 +23,14 @@ function App() {
                 isUser: false
             }]);
         }, 600);
-    };
+    },[chatMessages]);
 
     return (
         <ChatLayout>
             <ChatWindow />
             <div className="w-full bg-white/80 dark:bg-dark-bg/90 backdrop-blur-md border-t border-gray-100 dark:border-gray-800 p-4 pb-safe z-20">
                 <div className="max-w-4xl mx-auto">
-                    <MessageInput onSend={handleSend} />
+                    <ChatInput onSend={handleSend} />
                 </div>
             </div>
         </ChatLayout>

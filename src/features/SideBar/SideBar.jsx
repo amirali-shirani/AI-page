@@ -1,6 +1,6 @@
 import {PanelLeftOpen, PanelRightOpen, X} from "lucide-react";
 import {useAppStore} from "../../../store/appStore.js";
-import NewChatButton from "./NewChatButton.jsx";
+import NewChatButton from "./components/NewChatButton.jsx";
 
 export default function Sidebar() {
     const isCollapsed = useAppStore(state => state.isCollapsed);
