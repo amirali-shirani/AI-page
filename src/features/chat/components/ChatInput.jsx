@@ -1,31 +1,37 @@
 import {useEffect, useRef, useState} from 'react';
-import {Mic, SendHorizontal} from "lucide-react";
+import {Loader2, Mic, SendHorizontal} from "lucide-react";
+import {useChat} from "../hooks/useChat.js";
 
-export default function ChatInput({onSend}) {
+export default function ChatInput() {
     const [message, setMessage] = useState('');
     const [isRecording, setIsRecording] = useState(false);
     const textareaRef = useRef(null);
+    const {sendMessage, isLoading} = useChat();
 
     useEffect(() => {
         if (textareaRef.current) {
             textareaRef.current.style.height = 'auto';
-            textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 150)}px`; // محدود کردن ارتفاع ماکسیمم
+            textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 150)}px`;
         }
     }, [message]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (message.trim()) {
-            onSend(message);
-            setMessage('');
-            if (textareaRef.current) textareaRef.current.style.height = 'auto';
+        // اگر در حال لودینگ بود یا پیام خالی بود، کاری نکن
+        if (!message.trim() || isLoading) return;
+
+        sendMessage(message);
+        setMessage('');
+
+        if (textareaRef.current) {
+            textareaRef.current.style.height = 'auto';
         }
     };
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
-            handleSubmit();
+            handleSubmit(e);
         }
     };
 
@@ -33,7 +39,7 @@ export default function ChatInput({onSend}) {
         setIsRecording(true);
         setTimeout(() => {
             setIsRecording(false);
-            onSend("پیام صوتی تست");
+            sendMessage("پیام صوتی تست");
         }, 2000);
     };
 
@@ -51,9 +57,12 @@ export default function ChatInput({onSend}) {
                         : 'bg-gray-200 dark:bg-gray-700 text-gray-400 cursor-not-allowed'
                 }`}
             >
-                <SendHorizontal className="w-5 h-5 md:w-5 md:h-5 rtl:rotate-180"/>
+                {isLoading ? (
+                    <Loader2 className="w-5 h-5 animate-spin"/>
+                ) : (
+                    <SendHorizontal className="w-5 h-5 md:w-5 md:h-5 rtl:rotate-180"/>
+                )}
             </button>
-
 
             <div className="flex-1 relative bg-transparent min-w-0">
                 <textarea
@@ -69,6 +78,7 @@ export default function ChatInput({onSend}) {
                     style={{minHeight: '44px'}}
                 />
             </div>
+
             <button
                 type="button"
                 onClick={startRecording}
@@ -84,7 +94,6 @@ export default function ChatInput({onSend}) {
                     <Mic className="w-5 h-5 md:w-6 md:h-6"/>
                 )}
             </button>
-
         </form>
     );
 }
