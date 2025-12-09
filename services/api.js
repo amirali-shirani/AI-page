@@ -8,7 +8,7 @@ const client = axios.create({
     // headers: { 'Content-Type': 'application/json' }
 });
 
-export const ai = {
+export const aiService = {
     getOrCreateSession: async () => {
         const savedSession = localStorage.getItem("session");
         if (savedSession) return savedSession;

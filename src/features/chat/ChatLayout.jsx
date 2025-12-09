@@ -1,6 +1,6 @@
 import {useAppStore} from "../../../store/appStore.js";
-import Sidebar from "../SideBar/SideBar.jsx";
-import Header from "../Header/Header.jsx";
+import Sidebar from "../sidebar/SideBar.jsx";
+import Header from "../header/Header.jsx";
 
 export default function ChatLayout({children}) {
     const isCollapsed = useAppStore(state => state.isCollapsed);

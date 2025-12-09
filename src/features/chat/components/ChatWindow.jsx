@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import ChatBubble from './ChatBubble.jsx';
-import {useMessageStore} from "../../../../store/messageStore.js";
+import {useMessageStore} from "../stores/messageStore.js";
 
 export default function ChatWindow() {
     const messages =    useMessageStore(state => state.chatMessages);
