@@ -18,7 +18,15 @@ export const chatServices = {
                 question: message,
                 session_id: savedSession,
             })
-            return data;
+            return {data , savedSession};
         }
+    },
+
+
+    getHistory: async (sessionId) => {
+        const {data} = await axiosClient.get(`/${sessionId}/history`);
+        return data;
     }
+
+
 };

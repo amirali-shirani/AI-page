@@ -1,12 +1,12 @@
 import {useEffect, useRef, useState} from 'react';
-import {Loader2, Mic, SendHorizontal} from "lucide-react";
+import {SendHorizontal} from "lucide-react";
 import {useChat} from "../hooks/useChat.js";
+import RecordingBtn from "./recording/RecordingBtn.jsx";
 
-export default function ChatInput() {
+export default function MessageInput() {
     const [message, setMessage] = useState('');
-    const [isRecording, setIsRecording] = useState(false);
     const textareaRef = useRef(null);
-    const {sendMessage, isLoading} = useChat();
+    const {handleSendMessage} = useChat();
 
     useEffect(() => {
         if (textareaRef.current) {
@@ -17,10 +17,9 @@ export default function ChatInput() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // اگر در حال لودینگ بود یا پیام خالی بود، کاری نکن
-        if (!message.trim() || isLoading) return;
+        if (!message.trim()) return;
 
-        sendMessage(message);
+        handleSendMessage(message);
         setMessage('');
 
         if (textareaRef.current) {
@@ -35,19 +34,12 @@ export default function ChatInput() {
         }
     };
 
-    const startRecording = () => {
-        setIsRecording(true);
-        setTimeout(() => {
-            setIsRecording(false);
-            sendMessage("پیام صوتی تست");
-        }, 2000);
-    };
 
     return (
         <form
             onSubmit={handleSubmit}
-            className="w-full bg-gray-100 dark:bg-gray-800 rounded-[20px] md:rounded-3xl shadow-sm border border-gray-200 dark:border-gray-700 p-1.5 md:p-2 flex items-end gap-2"
-        >
+            className="w-full bg-gray-100 dark:bg-gray-800 rounded-[20px] md:rounded-3xl shadow-sm border
+            border-gray-200 dark:border-gray-700 p-1.5 md:p-2 flex items-end gap-2">
             <button
                 type="submit"
                 disabled={!message.trim()}
@@ -57,11 +49,7 @@ export default function ChatInput() {
                         : 'bg-gray-200 dark:bg-gray-700 text-gray-400 cursor-not-allowed'
                 }`}
             >
-                {isLoading ? (
-                    <Loader2 className="w-5 h-5 animate-spin"/>
-                ) : (
-                    <SendHorizontal className="w-5 h-5 md:w-5 md:h-5 rtl:rotate-180"/>
-                )}
+                <SendHorizontal className="w-5 h-5 md:w-5 md:h-5 rtl:rotate-180"/>
             </button>
 
             <div className="flex-1 relative bg-transparent min-w-0">
@@ -71,29 +59,14 @@ export default function ChatInput() {
                     onChange={(e) => setMessage(e.target.value)}
                     onKeyDown={handleKeyDown}
                     placeholder="پیام..."
-                    dir="auto"
+                    dir="rtl"
                     className="w-full bg-transparent text-gray-800 dark:text-white text-[15px] md:text-base p-2.5 md:p-3
                     focus:outline-none resize-none max-h-[120px] md:max-h-[200px] overflow-y-auto leading-relaxed"
                     rows={1}
                     style={{minHeight: '44px'}}
                 />
             </div>
-
-            <button
-                type="button"
-                onClick={startRecording}
-                className={`p-2.5 md:p-3 rounded-full transition-all shrink-0 ${
-                    isRecording
-                        ? 'bg-red-500 text-white animate-pulse'
-                        : 'bg-transparent text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
-                }`}
-            >
-                {isRecording ? (
-                    <div className="w-2 h-2 md:w-2.5 md:h-2.5 bg-white rounded-full mx-auto"/>
-                ) : (
-                    <Mic className="w-5 h-5 md:w-6 md:h-6"/>
-                )}
-            </button>
+            <RecordingBtn sendMessage={handleSendMessage}/>
         </form>
     );
 }

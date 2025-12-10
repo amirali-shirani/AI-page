@@ -1,38 +1,39 @@
-import { useMutation } from '@tanstack/react-query';
-import {useMessageStore} from "../stores/messageStore.js";
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {chatServices} from "../api/chatServices.js";
 
 export const useChat = () => {
-    const setChatMessages = useMessageStore(state => state.setChatMessages);
-
-    const mutation = useMutation({
-        mutationFn: (message) => chatServices.sendMessage(message),
-        onSuccess: (data) => {
-            console.log("data" ,data)
-            setChatMessages(prev => [...prev, {
-                text: data.answer || data.message || "پاسخی دریافت شد",
-                isUser: false
-            }]);
-        },
-
-        onError: (error) => {
-            console.error("Chat Error:", error);
-            setChatMessages(prev => [...prev, {
-                text: "متاسفانه مشکلی پیش آمد. لطفا دوباره تلاش کنید.",
-                isUser: false,
-                isError: true
-            }]);
-        }
+    const queryClient = useQueryClient();
+    const session = localStorage.getItem("session");
+    // 1. گرفتن لیست پیام‌ها مستقیم از API
+    const {data: messages = [], isLoading} = useQuery({
+        queryKey: ['chat-history', session],
+        queryFn: () => chatServices.getHistory(session),
+        staleTime: Infinity,
     });
 
-    const sendMessage = (text) => {
-        setChatMessages(prev => [...prev, { text, isUser: true }]);
-        mutation.mutate(text);
+    const sendMessage = useMutation({
+        mutationKey: ['send-chat-message'],
+        mutationFn: (message) => chatServices.sendMessage(message),
+        onSuccess: (newItem) => {
+
+            queryClient.setQueryData(['chat-history',session], (oldData) => {
+                return [...(oldData || []), {text: newItem.answer, isUser: false}];
+            });
+        },
+    });
+
+    const handleSendMessage = (text) => {
+        queryClient.setQueryData(['chat-history', localStorage.getItem("session")], (oldData) => {
+            return [...(oldData || []), {text: text, isUser: true}];
+        });
+        sendMessage.mutate(text);
     };
 
     return {
-        sendMessage,
-        isLoading: mutation.isPending, // این همان چیزی است که برای لودینگ می‌خواهی
-        isError: mutation.isError
+        messages,
+        isLoading,
+        handleSendMessage,
+        isGenerating: sendMessage.isPending,
+        isError: sendMessage.isError
     };
 };
