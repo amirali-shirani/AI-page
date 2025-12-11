@@ -42,11 +42,10 @@ export const useChat = () => {
                     console.error("Delete session failed:", e);
                 }
             }
-            const newId = await chatServices.getOrCreateSession();
-            return newId;
+            return await chatServices.getOrCreateSession();
         },
         onSuccess: (newId) => {
-            queryClient.removeQueries({ queryKey: ["chat-history" , sessionId] });
+            queryClient.removeQueries({queryKey: ["chat-history", sessionId]});
             setSessionId(newId);
         },
 
