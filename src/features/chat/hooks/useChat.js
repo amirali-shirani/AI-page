@@ -8,15 +8,15 @@ export const useChat = () => {
     const { data: messagesData = { messages: [] }, isLoading } = useQuery({
         queryKey: ['chat-history', savedSession],
         queryFn: () => chatServices.getHistory(savedSession),
+        enabled: !!savedSession, // اگه سشن نبود الکی ریکوئست نزن
     });
 
     const sendMessage = useMutation({
         mutationKey: ['send-chat-message'],
-        mutationFn: (message) => chatServices.sendMessage(message, savedSession),
+        mutationFn: ({ question, category }) => chatServices.sendMessage(question, savedSession, category),
         onSuccess: (newItem) => {
             queryClient.setQueryData(['chat-history', savedSession], (oldData) => {
                 const safeOldData = oldData || { messages: [] };
-
                 return {
                     ...safeOldData,
                     messages: [
@@ -28,23 +28,28 @@ export const useChat = () => {
         },
     });
 
-    const handleSendMessage = (text) => {
-        sendMessage.mutate(text);
+    const handleSendMessage = (question, category) => {
+        sendMessage.mutate({ question, category });
+
         queryClient.setQueryData(['chat-history', savedSession], (oldData) => {
-            console.log("Updating UI Optimistically...");
+            const safeOldData = oldData || { messages: [] };
             return {
-                ...oldData,
+                ...safeOldData,
                 messages: [
-                    ...(oldData?.messages || []),
-                    { text: text, isUser: true }
+                    ...(safeOldData.messages || []),
+                    { text: question, isUser: true, category }
                 ]
             };
         });
-
-
     };
 
+    const { data: categories } = useQuery({
+        queryKey: ['categories'],
+        queryFn: chatServices.getCategories
+    });
+
     return {
+        categories,
         messages: messagesData,
         isLoading,
         handleSendMessage,

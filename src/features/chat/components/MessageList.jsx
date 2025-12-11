@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react';
 import { useChat } from "../hooks/useChat.js";
 import Message from "./Message";
 import { Loader2 } from "lucide-react";
-// 1. تغییر ایمپورت: فقط useIsMutating کافیه
 import { useIsMutating } from "@tanstack/react-query";
 
 export default function MessageList() {
