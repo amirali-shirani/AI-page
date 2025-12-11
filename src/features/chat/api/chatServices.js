@@ -1,8 +1,9 @@
 import {axiosClient} from "../../../lib/axiosClient.js";
 
+const savedSession = localStorage.getItem("session");
 export const chatServices = {
     getOrCreateSession: async () => {
-        const savedSession = localStorage.getItem("session");
+
         if (savedSession) return savedSession;
 
         const {data} = await axiosClient.post('/sessions');
@@ -11,22 +12,19 @@ export const chatServices = {
     },
 
     sendMessage: async (message) => {
-        const savedSession = localStorage.getItem("session");
         if (savedSession) {
-            const {data} =  await axiosClient.post("/query", {
+            const {data} = await axiosClient.post("/query", {
                 category: "distribution",
                 question: message,
                 session_id: savedSession,
             })
-            return {data , savedSession};
+            return {data, savedSession};
         }
     },
 
 
     getHistory: async (sessionId) => {
-        const {data} = await axiosClient.get(`/${sessionId}/history`);
+        const {data} = await axiosClient.get(`/sessions/${sessionId}/history`);
         return data;
     }
-
-
 };

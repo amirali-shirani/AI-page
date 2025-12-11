@@ -1,39 +1,53 @@
-import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
-import {chatServices} from "../api/chatServices.js";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { chatServices } from "../api/chatServices.js";
 
 export const useChat = () => {
+    const savedSession = localStorage.getItem('session');
     const queryClient = useQueryClient();
-    const session = localStorage.getItem("session");
-    // 1. گرفتن لیست پیام‌ها مستقیم از API
-    const {data: messages = [], isLoading} = useQuery({
-        queryKey: ['chat-history', session],
-        queryFn: () => chatServices.getHistory(session),
-        staleTime: Infinity,
+
+    const { data: messagesData = { messages: [] }, isLoading } = useQuery({
+        queryKey: ['chat-history', savedSession],
+        queryFn: () => chatServices.getHistory(savedSession),
     });
 
     const sendMessage = useMutation({
         mutationKey: ['send-chat-message'],
-        mutationFn: (message) => chatServices.sendMessage(message),
+        mutationFn: (message) => chatServices.sendMessage(message, savedSession),
         onSuccess: (newItem) => {
+            queryClient.setQueryData(['chat-history', savedSession], (oldData) => {
+                const safeOldData = oldData || { messages: [] };
 
-            queryClient.setQueryData(['chat-history',session], (oldData) => {
-                return [...(oldData || []), {text: newItem.answer, isUser: false}];
+                return {
+                    ...safeOldData,
+                    messages: [
+                        ...(safeOldData.messages || []),
+                        { text: newItem.data.answer, isUser: false }
+                    ]
+                };
             });
         },
     });
 
     const handleSendMessage = (text) => {
-        queryClient.setQueryData(['chat-history', localStorage.getItem("session")], (oldData) => {
-            return [...(oldData || []), {text: text, isUser: true}];
-        });
         sendMessage.mutate(text);
+        queryClient.setQueryData(['chat-history', savedSession], (oldData) => {
+            console.log("Updating UI Optimistically...");
+            return {
+                ...oldData,
+                messages: [
+                    ...(oldData?.messages || []),
+                    { text: text, isUser: true }
+                ]
+            };
+        });
+
+
     };
 
     return {
-        messages,
+        messages: messagesData,
         isLoading,
         handleSendMessage,
-        isGenerating: sendMessage.isPending,
         isError: sendMessage.isError
     };
 };
