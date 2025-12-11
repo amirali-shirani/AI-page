@@ -9,7 +9,7 @@ export default function Message({message}) {
         : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-bl-none border border-gray-100 dark:border-gray-700'}
     `;
     return (
-        <div className={bubbleClass}>
+        <div className={bubbleClass} dir="auto">
             {text}
         </div>
 

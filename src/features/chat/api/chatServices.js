@@ -11,14 +11,13 @@ export const chatServices = {
         return data.session_id;
     },
 
-    sendMessage: async (question, session_id, category) => {
-
+    sendMessage: async (question, session_id) => {
         if (!session_id) {
             throw new Error("Session ID not found");
         }
 
         const {data} = await axiosClient.post("/query", {
-            category,
+            category: "distribution",
             question,
             session_id,
         });

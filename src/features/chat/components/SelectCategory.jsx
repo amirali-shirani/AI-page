@@ -13,7 +13,7 @@ const SelectCategory = ({setSelectedCategory, selectedCategory}) => {
                 id="category-select"
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="appearance-none text-sm text-gray-400 font-medium rounded-lg
+                className="appearance-none text-sm text-gray-400 font-medium rounded-xl
                         cursor-pointer py-2 pl-2 pr-7 border border-gray-500">
                 <option value="" selected>انتخاب دسته بندی</option>
                 {categoriesMap.map((category, index) => (

@@ -1,44 +1,14 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
-/*:root {*/
-/*    --user-chat-color : rgb(216,215,255);*/
-/*    --chat-bot-color : rgb(248,248,255)*/
-/*}*/
 @theme {
-    /* حالت روشن (پیش‌فرض) */
-    /*--color-light-bg : #FFFF;*/
-    /*--color-user-message: rgb(216, 215, 255);*/
-    /*--color-chat-message: rgb(248, 248, 255);*/
-    /*--color-sidebar: rgb(248, 248, 255);*/
-    /*--color-custom-secondary: rgb(240, 241, 245);*/
-    --color-light-bg: #FFFFFF;              /* پس‌زمینه اصلی */
-    --color-light-secondary-bg: #F9FAFB;    /* پس‌زمینه ثانویه */
-    --color-light-tertiary-bg: #F3F4F6;     /* پس‌زمینه سوم */
-    --color-light-text-primary: #111827;    /* متن اصلی */
-    --color-light-text-secondary: #6B7280;  /* متن ثانویه */
-    --color-light-accent: #3B82F6;          /* رنگ تأکید (آبی) */
-    --color-light-accent-hover: #2563EB;    /* رنگ تأکید هاور */
-    --color-light-success: #10B981;         /* رنگ موفقیت */
-    --color-light-warning: #F59E0B;         /* رنگ هشدار */
-    --color-light-error: #EF4444;           /* رنگ خطا */
-    --color-light-border: #E5E7EB;          /* خطوط جداکننده */
-    --color-light-card: #FFFFFF;            /* کارت‌ها و بخش‌های داخلی */
-    --color-light-overlay: rgba(0, 0, 0, 0.05); /* اورلی نرم */
-    /*---------------------------------------*/
-    --color-dark-bg: #111827;               /* پس‌زمینه اصلی */
-    --color-dark-secondary-bg: #1F2937;     /* پس‌زمینه ثانویه */
-    --color-dark-tertiary-bg: #374151;      /* پس‌زمینه سوم */
-    --color-dark-text-primary: #F9FAFB;     /* متن اصلی */
-    --color-dark-text-secondary: #9CA3AF;   /* متن ثانویه */
-    --color-dark-accent: #60A5FA;           /* رنگ تأکید (آبی روشن) */
-    --color-dark-accent-hover: #3B82F6;     /* رنگ تأکید هاور */
-    --color-dark-success: #34D399;          /* رنگ موفقیت */
-    --color-dark-warning: #FBBF24;          /* رنگ هشدار */
-    --color-dark-error: #F87171;            /* رنگ خطا */
-    --color-dark-border: #374151;           /* خطوط جداکننده */
-    --color-dark-card: #1F2937;             /* کارت‌ها و بخش‌های داخلی */
-    --color-dark-overlay: rgba(0, 0, 0, 0.4); /* اورلی تیره */
+    --color-light-bg: #FFFFFF;
+    --color-light-accent: #3B82F6;
+    --color-: #2563EB;
+    --color-dark-bg: #111827;
+    --color-dark-accent-hover: #3B82F6;
+    --color-dark-error: #F87171;
+    --color-dark-border: #374151;
 }
 
 /* در فایل globals.css یا styles.css */
