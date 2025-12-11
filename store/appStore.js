@@ -11,4 +11,10 @@ export const useAppStore = create((set) => ({
         localStorage.setItem('isCollapsed', JSON.stringify(newState));
         return {isCollapsed: newState};
     }),
+
+    sessionId: localStorage.getItem('session'),
+    setSessionId: (id) => {
+        localStorage.setItem('session', id);
+        set({ sessionId: id });
+    },
 }));

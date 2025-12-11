@@ -25,13 +25,12 @@ export const chatServices = {
     },
 
     getHistory: async (sessionId) => {
-        if (!sessionId) return {messages: []};
+        if (!sessionId) return;
         const {data} = await axiosClient.get(`/sessions/${sessionId}/history`);
         return data;
     },
 
-    getCategories: async () => {
-        const {data} = await axiosClient.get(`/categories`);
-        return data;
-    }
+    deleteSession: async (sessionId) => {
+        await axiosClient.delete(`/sessions/${sessionId}`);
+    },
 };
