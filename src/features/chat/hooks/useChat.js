@@ -25,7 +25,7 @@ export const useChat = () => {
                     ...safeOldData,
                     messages: [
                         ...(safeOldData.messages || []),
-                        {text: newItem.data.answer, isUser: false}
+                        {text: newItem.data.answer, isUser: false, sources: newItem.data.sources}
                     ]
                 };
             });
