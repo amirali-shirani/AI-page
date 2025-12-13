@@ -1,45 +1,48 @@
-import { FileText } from "lucide-react";
-export default function Message({message}) {
-    const {text, isUser , sources} = message;
-    const bubbleClass = `
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm'; // <--- این خیلی مهمه
+
+export default function Message({ message }) {
+    const { text, isUser } = message;
+
+    const baseBubbleClass = `
         max-w-[85%] md:max-w-[70%] lg:max-w-2xl 
         p-4 rounded-2xl shadow-sm text-sm md:text-base leading-relaxed
-        whitespace-pre-wrap
-        ${isUser
-        ? 'bg-light-accent dark:bg-dark-accent text-white rounded-br-none'
-        : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-bl-none border border-gray-100 dark:border-gray-700'}
+        overflow-x-auto 
     `;
-    return (
-        <>
-            <div className={bubbleClass} dir="auto">
-                {text}
-            </div>
-            {!isUser && sources && (
-                <div className="mt-4 pt-3 border-t border-border/50">
-                    <p className="text-xs font-bold text-text-muted mb-2 flex items-center gap-1">
-                        <FileText size={14}/>
-                        منابع استفاده شده:
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                        {sources.map((source, index) => (
-                            <div
-                                key={index}
-                                className="bg-background/50 hover:bg-background border border-border rounded-lg p-2 text-xs transition-colors cursor-help group relative"
-                                title={`امتیاز شباهت: ${Math.round(source.score * 100)}%`}
-                            >
-                                <span className="text-primary font-medium block truncate max-w-[200px]">
-                                    {source.label}
-                                </span>
+    // نکته: overflow-x-auto رو اضافه کردم که اگه جدول بزرگ بود، اسکرول بخوره و صفحه رو خراب نکنه
 
-                                <div
-                                    className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 bg-gray-900 text-white p-2 rounded shadow-xl text-[10px] hidden group-hover:block z-10 pointer-events-none">
-                                    {source.snippet.substring(0, 150)}...
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            )}
-        </>
+    const styleClass = isUser
+        ? 'bg-light-accent dark:bg-dark-accent text-white rounded-br-none prose prose-invert'
+        : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-bl-none border border-gray-100 dark:border-gray-700 prose dark:prose-invert';
+
+    return (
+        <div className={`${baseBubbleClass} ${styleClass}`} dir="rtl">
+            <ReactMarkdown
+                remarkPlugins={[remarkGfm]} // <--- این خط جدول رو فعال می‌کنه
+                components={{
+                    // شخصی‌سازی لینک‌ها
+                    a: ({node, ...props}) => (
+                        <a {...props} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline" />
+                    ),
+                    // شخصی‌سازی جدول برای اینکه توی حالت RTL و Dark Mode قشنگ دیده بشه
+                    table: ({node, ...props}) => (
+                        <div className="my-4 w-full overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
+                            <table {...props} className="w-full text-right text-sm" />
+                        </div>
+                    ),
+                    thead: ({node, ...props}) => (
+                        <thead {...props} className="bg-gray-100 dark:bg-gray-900/50 text-gray-700 dark:text-gray-200" />
+                    ),
+                    th: ({node, ...props}) => (
+                        <th {...props} className="p-3 font-semibold border-b border-gray-200 dark:border-gray-700 text-right" />
+                    ),
+                    td: ({node, ...props}) => (
+                        <td {...props} className="p-3 border-b border-gray-100 dark:border-gray-800 last:border-0 align-top" />
+                    )
+                }}
+            >
+                {text}
+            </ReactMarkdown>
+        </div>
     );
 }

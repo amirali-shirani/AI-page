@@ -63,7 +63,7 @@ export default function MessageInput() {
                     onKeyDown={handleKeyDown}
                     placeholder="پیام..."
                     dir={message.length >= 1 ? "auto" : "rtl"}
-                    className="w-full bg-transparent text-gray-800 dark:text-white text-[15px] md:text-base p-2.5 md:p-3
+                    className="w-full bg-transparent placeholder:text-gray-700 dark:placeholder:text-gray-300 text-gray-800 dark:text-white text-[15px] md:text-base p-2.5 md:p-3
                     focus:outline-none resize-none max-h-[120px] md:max-h-[200px] overflow-y-auto leading-relaxed"
                     rows={1}
                     style={{minHeight: '44px'}}
