@@ -22,7 +22,7 @@ export const chatServices = {
         return data.session_id;
     },
 
-    sendMessage: async (question, session_id) => {
+    sendMessage: async (question, session_id , signal) => {
         if (!session_id) {
             throw new Error("Session ID not found");
         }
@@ -31,7 +31,7 @@ export const chatServices = {
             category: "distribution",
             question,
             session_id,
-        });
+        } , { signal: signal });
         return {data};
     },
 

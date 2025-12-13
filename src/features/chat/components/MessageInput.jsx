@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from 'react';
-import {SendHorizontal} from "lucide-react";
+import {SendHorizontal , Square} from "lucide-react";
 import {useChat} from "../hooks/useChat.js";
 import RecordingBtn from "./recording/RecordingBtn.jsx";
 
@@ -7,8 +7,7 @@ import RecordingBtn from "./recording/RecordingBtn.jsx";
 export default function MessageInput() {
     const [message, setMessage] = useState('');
     const textareaRef = useRef(null);
-    // const [selectedCategory, setSelectedCategory] = useState('');
-    const {handleSendMessage} = useChat();
+    const {handleSendMessage, isMutating , stopGeneration} = useChat();
 
     useEffect(() => {
         if (textareaRef.current) {
@@ -38,7 +37,10 @@ export default function MessageInput() {
             handleSubmit(e);
         }
     };
-
+    const handleStop = (e) => {
+        e.preventDefault();
+        stopGeneration(); // <--- ببین چقدر تمیز شد؟ UI فقط دستور میده.
+    };
     return (
         <form
             onSubmit={handleSubmit}
@@ -46,14 +48,18 @@ export default function MessageInput() {
             border-gray-200 dark:border-gray-700 p-2 flex items-end gap-2">
 
             <button
-                type="submit"
-                disabled={!message.trim()}
+                type={isMutating ? "button" : "submit"}
+                onClick={isMutating ? handleStop : undefined}
+                disabled={!message.trim() && !isMutating}
+
                 className={`p-2.5 rounded-full transition-all mb-1.5 ${
                     message.trim()
                         ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-md transform hover:scale-105'
                         : 'bg-gray-200 dark:bg-gray-700 text-gray-400 cursor-not-allowed'}`}
             >
-                <SendHorizontal className="w-5 h-5 md:w-5 md:h-5 rtl:rotate-180"/>
+                {isMutating ? (
+                    <Square  className="bg-light-accent"/>
+                ): (<SendHorizontal className="w-5 h-5 md:w-5 md:h-5 rtl:rotate-180"/> )}
             </button>
             <div className=" bg-transparent w-full">
                 <textarea

@@ -9,7 +9,6 @@ export default function Message({ message }) {
         p-4 rounded-2xl shadow-sm text-sm md:text-base leading-relaxed
         overflow-x-auto 
     `;
-    // نکته: overflow-x-auto رو اضافه کردم که اگه جدول بزرگ بود، اسکرول بخوره و صفحه رو خراب نکنه
 
     const styleClass = isUser
         ? 'bg-light-accent dark:bg-dark-accent text-white rounded-br-none prose prose-invert'
@@ -20,11 +19,9 @@ export default function Message({ message }) {
             <ReactMarkdown
                 remarkPlugins={[remarkGfm]} // <--- این خط جدول رو فعال می‌کنه
                 components={{
-                    // شخصی‌سازی لینک‌ها
                     a: ({node, ...props}) => (
                         <a {...props} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline" />
                     ),
-                    // شخصی‌سازی جدول برای اینکه توی حالت RTL و Dark Mode قشنگ دیده بشه
                     table: ({node, ...props}) => (
                         <div className="my-4 w-full overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
                             <table {...props} className="w-full text-right text-sm" />

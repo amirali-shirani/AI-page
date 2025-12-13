@@ -1,13 +1,14 @@
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {chatServices} from "../api/chatServices.js";
 import {useAppStore} from "../../../../store/appStore.js";
+import {useRef} from "react";
 
 export const useChat = () => {
     const queryClient = useQueryClient();
 
     const sessionId = useAppStore(state => state.sessionId);
     const setSessionId = useAppStore(state => state.setSessionId);
-
+    const abortControllerRef = useRef(null);
 
     const {data: messagesData = {messages: []}, isLoading} = useQuery({
         queryKey: ['chat-history', sessionId],
@@ -17,7 +18,7 @@ export const useChat = () => {
 
     const sendMessage = useMutation({
         mutationKey: ['send-chat-message'],
-        mutationFn: (question) => chatServices.sendMessage(question, sessionId),
+        mutationFn: ({question, signal}) => chatServices.sendMessage(question, sessionId, signal),
         onSuccess: (newItem) => {
             queryClient.setQueryData(['chat-history', sessionId], (oldData) => {
                 const safeOldData = oldData || {messages: []};
@@ -55,7 +56,14 @@ export const useChat = () => {
     })
 
     const handleSendMessage = (question) => {
-        sendMessage.mutate(question);
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
+        }
+
+        const controller = new AbortController();
+        abortControllerRef.current = controller;
+
+        sendMessage.mutate({ question, signal: controller.signal });
         queryClient.setQueryData(['chat-history', sessionId], (oldData) => {
             const safeOldData = oldData || {messages: []};
             return {
@@ -67,12 +75,20 @@ export const useChat = () => {
             };
         });
     };
-
+    const stopGeneration = () => {
+        // ۶. لاجیک واقعی استاپ
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort(); // قطع کردن نتورک
+            abortControllerRef.current = null;
+        }
+    };
     return {
         sessionId,
         messages: messagesData,
         isLoading,
         resetSession,
+        stopGeneration,
+        isMutating : sendMessage.isMutating || sendMessage.isPending,
         handleSendMessage,
         isError: sendMessage.isError,
     };

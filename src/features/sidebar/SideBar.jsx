@@ -26,7 +26,7 @@ export default function Sidebar() {
                         <span className={`font-bold text-xl bg-clip-text transition-opacity
                         dark:text-gray-200 
                          duration-200 ${isCollapsed ? 'opacity-0' : 'opacity-100'}`}>
-                            Makan
+                            Makan System Ai
                         </span>
                     </div>
 
