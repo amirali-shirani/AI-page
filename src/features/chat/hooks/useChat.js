@@ -31,6 +31,32 @@ export const useChat = () => {
                 };
             });
         },
+        onError: (error) => {
+            // چک میکنیم آیا خطا به خاطر کنسل شدن بوده؟
+            const isAborted = error.name === 'AbortError' || error.name === 'CanceledError' || error.message === 'canceled';
+
+            if (isAborted) {
+                // دستی یک پیام "توقف" به لیست چت اضافه میکنیم
+                queryClient.setQueryData(['chat-history', sessionId], (oldData) => {
+                    const safeOldData = oldData || {messages: []};
+                    return {
+                        ...safeOldData,
+                        messages: [
+                            ...(safeOldData.messages || []),
+                            {
+                                text: "تولید پاسخ توسط کاربر متوقف شد.",
+                                isUser: false,
+                                isError: true // <--- این فلگ رو ست میکنیم تا توی UI قرمز بشه
+                            }
+                        ]
+                    };
+                });
+            } else {
+                // اگر ارور واقعی بود (مثلا قطع اینترنت)
+                console.error("Chat Error:", error);
+                // اینجا میتونی یه پیام ارور دیگه ادد کنی یا Toast نشون بدی
+            }
+        }
     });
 
     const resetSession = useMutation({
@@ -63,7 +89,7 @@ export const useChat = () => {
         const controller = new AbortController();
         abortControllerRef.current = controller;
 
-        sendMessage.mutate({ question, signal: controller.signal });
+        sendMessage.mutate({question, signal: controller.signal});
         queryClient.setQueryData(['chat-history', sessionId], (oldData) => {
             const safeOldData = oldData || {messages: []};
             return {
@@ -85,10 +111,11 @@ export const useChat = () => {
     return {
         sessionId,
         messages: messagesData,
+        onError: sendMessage.isError,
         isLoading,
         resetSession,
         stopGeneration,
-        isMutating : sendMessage.isMutating || sendMessage.isPending,
+        isMutating: sendMessage.isMutating || sendMessage.isPending,
         handleSendMessage,
         isError: sendMessage.isError,
     };
